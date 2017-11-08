@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>snap animation loading page</title>
+    <link href="https://fonts.googleapis.com/css?family=Courgette" rel="stylesheet">
+    <script type="text/javascript" src="snap.svg.js"></script>
+</head>
+
+<style type="text/css">
+	body {
+		background: #518ce9
+	}
+
+	#blimp {
+		margin-top: 200px
+	}
+</style>
+
+<body>
+	<div style="text-align:center;">
+	    <svg data-name="blimp" xmlns="http://www.w3.org/2000/svg" id="blimp" width="200px" height="200px" viewBox="0 0 2000 2000">
+	        <defs>
+	            <style>
+	            .blimp-stroke {
+	                stroke: #000;
+	                stroke-width: 50px;
+	                fill-rule: evenodd;
+	            }
+	            text {
+	            	fill: #000
+	            }
+	            svg text {
+					cursor: default;
+					-webkit-user-select: none;
+					-moz-user-select: none;
+					-ms-user-select: none;
+					user-select: none;
+				}
+	            </style>
+	            <linearGradient id="outer" x1="0%" y1="0%" x2="0%" y2="100%">
+		          <stop offset="0%" stop-color="#3b596a" />
+		          <stop offset="49%" stop-color="#3b596a" />
+		          <stop offset="50%" stop-color="#a1cd73" />
+		          <stop offset="100%" stop-color="#a1cd73" />
+		        </linearGradient>
+		        <linearGradient id="middle" x1="0%" y1="0%" x2="0%" y2="100%">
+		          <stop offset="0%" stop-color="#427676" />
+		          <stop offset="49%" stop-color="#427676" />
+		          <stop offset="50%" stop-color="#3f9a82" />
+		          <stop offset="100%" stop-color="#3f9a82" />
+		        </linearGradient>
+	        </defs>
+	        <g class="outer" fill="url(#outer)">
+	            <path class="blimp-stroke" d="m1931.421509,998.607971q-0.019775,0.882019 -0.029663,1.392029q0.009888,0.51001 0.029663,1.390015a7.590618,7.713 0 0 1 0.039185,2.019958c0.826782,51.659973 -2.656982,575.730042 -727.913818,575.600037c-735.526428,0 -1114.574028,-551.339966 -1132.76474,-578.440002c18.190712,-28.242004 397.238312,-579.580017 1132.76474,-579.580017c725.256836,-0.130981 728.740601,523.936035 727.913818,575.598999a7.589634,7.712 0 0 1 -0.039185,2.018982z" />
+	        </g>
+	        <g class="fins" fill="#ecdb60">
+	            <path d="m292.125122,1260.5l-2,362l191,106s155.005981,-199.300049 186,-238c-62.982971,-24.869995 -223.536011,-103.160034 -375,-230z" class="blimp-stroke" class="bottom" />
+	            <path d="m292.125122,739.5l-2,-362.000031l191,-105.999969s155.005981,199.299957 186,237.999969c-62.982971,24.869049 -223.536011,103.156036 -375,230.000031z" class="blimp-stroke" class="top"/>
+	        </g>
+	        <g class="middle" fill="url(#middle)">
+	            <path d="m1931.004517,1000t0.028931,0.830017a2.468426,2.569 0 0 1 0.028809,1.190002c0.807007,30.599976 -2.59436,341.059937 -710.501465,340.97998c-717.927673,0 -1087.912216,-326.599976 -1105.667511,-342.659973c17.755585,-16.733032 387.739838,-343.340027 1105.667511,-343.340027c707.907104,-0.078003 711.308472,310.375 710.501465,340.97998l-0.057739,2.02002z" class="blimp-stroke" />
+	            <rect class="line" ry="26" rx="26" height="52" width="1772.77023" y="974" x="154.391014" fill="#000"/>
+	        </g>
+	        <g class="house" fill="#ecdb60">
+	            <path d="m939.125122,1565.000854c0.900024,41.949951 34,242 34,242l405,0s41,-191.72998 41,-239c-76.119995,29.640015 -351.380005,28.47998 -480,-3z" class="blimp-stroke" />
+	        </g>
+	    </svg>
+	    <svg id="logo-text" width="320px" height="200px" ></svg>
+	</div>
+    <script type="text/javascript">
+    let blimp = Snap.select("#blimp");
+    let text = Snap.select("#logo-text");
+
+	let move_up = new Snap.Matrix();
+	move_up.translate(0,3);
+	move_up.rotate(3);
+
+	let move_down = new Snap.Matrix();
+	move_down.translate(0,-3);
+	move_down.rotate(-3);
+
+	function moveUp () {
+		blimp.animate({ transform: move_up }, 5000, mina.linear, moveDown);
+	}
+
+	function moveDown () {
+		blimp.animate({ transform: move_down }, 5000, mina.linear, moveUp)
+	}
+
+	moveUp()
+
+	function animateText() {
+		// modify this one line below, and see the result !
+		var logoTitle = 'Blimpify';
+		var logoRandom = '';
+		var logoTitleContainer = text.text(20, '65%', '');
+		var possible = "-+*/|}{[]~\\\":;?/.><=+-_)(*&^%$#@!)}";
+		logoTitleContainer.attr({
+			fontSize: 80,
+			fontFamily: 'Courgette'
+		});
+
+		function generateRandomTitle(i, logoRandom) {
+			setTimeout( function() {
+				logoTitleContainer.attr({ text: logoRandom });
+			}, i*70 );
+		}
+
+		for( var i=0; i < logoTitle.length+1; i++ ) {
+			logoRandom = logoTitle.substr(0, i);
+			for( var j=i; j < logoTitle.length; j++ ) { 
+				logoRandom += possible.charAt(Math.floor(Math.random() * possible.length)); 
+			}
+			generateRandomTitle(i, logoRandom);
+			logoRandom = '';
+		}
+
+	}
+
+	text.click(function() {
+		text.clear()
+		animateText()
+	})
+
+	setTimeout(animateText , 500 );
+
+
+    </script>
+</body>
+
+</html>
